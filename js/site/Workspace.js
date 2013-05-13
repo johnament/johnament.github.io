@@ -1,6 +1,5 @@
 define(['underscore','backbone','navItems','NavigationCollection'], function(_, Backbone,NavItemsView,NavigationCollection){
 	var Workspace = Backbone.Router.extend({
-
 		routes: {
 			":navigate":            "doNav"
 		},
