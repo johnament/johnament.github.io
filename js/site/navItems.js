@@ -1,10 +1,10 @@
 define(['underscore','backbone','text!navItem.htm'], function(_, Backbone,NavItemTemp){
 	var NavItemsView = Backbone.View.extend({
-		el: $("#navItems");
+		el: $("#navItems"),
 		initialize: function() {
 			this.listenTo(this.model, "sync", this.render);
 			this.model.fetch();
-		}
+		},
 		template: _.template(NavItemTemp),
 		render: function() {
 			this.$el.clear();
