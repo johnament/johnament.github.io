@@ -1,4 +1,4 @@
-define(['underscore','backbone','navItems'], function(_, Backbone,NavItemsView){
+define(['underscore','backbone','navItems','NavigationCollection'], function(_, Backbone,NavItemsView,NavigationCollection){
 	var Workspace = Backbone.Router.extend({
 
 		routes: {
@@ -6,7 +6,7 @@ define(['underscore','backbone','navItems'], function(_, Backbone,NavItemsView){
 		},
 		initialize: function() {
 			console.log("init the router.");
-			var a = new NavItemsView;
+			var a = new NavItemsView({model:new NavigationCollection});
 			console.log("created a "+a);
 		},
 		doNav: function(loc) {

@@ -1,8 +1,4 @@
-define([
-  'underscore',
-  'backbone',
-  // Pull in the Model module from above
-  'navigationModel'
+define(['underscore','backbone','NavigationModel'
 ], function(_, Backbone, NavigationModel){
   var NavigationCollection = Backbone.Collection.extend({
     model: NavigationModel,
