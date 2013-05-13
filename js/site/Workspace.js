@@ -8,6 +8,7 @@ define(['underscore','backbone'], function(_, Backbone){
 			console.log("init the router.");
 			define(['navItems'], function(NavItemsView){
 				var a = new NavItemsView;
+				console.log("created a "+a);
 			});
 		},
 		doNav: function(loc) {
