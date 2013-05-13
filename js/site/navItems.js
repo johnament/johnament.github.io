@@ -7,7 +7,7 @@ define(['underscore','backbone','text!navItem.htm'], function(_, Backbone,NavIte
 		},
 		template: _.template(NavItemTemp),
 		render: function() {
-			this.model.forEeach(function(i) {
+			this.model.forEach(function(i) {
 				this.$el.append(this.template(i.toJSON()));
 			});
 			return this;
