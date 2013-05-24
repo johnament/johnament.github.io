@@ -3,7 +3,8 @@ define(['underscore','backbone'], function(_, Backbone){
     defaults: {
       css:"",
 	  link:"",
-	  text:""
+	  text:"",
+	  target:"_self"
     }
   });
   return NavigationModel;
