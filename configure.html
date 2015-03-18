@@ -10,7 +10,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="expires" content="-1" />
 
-<title>Documentation</title>
+<title>Configure DeltaSpike in Your Projects</title>
 
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
@@ -187,43 +187,101 @@ body {
     <div class="row">
       <div class="span12">
         <div class="page-title">
-          <h1>Documentation</h1>
+          <h1>Configure DeltaSpike in Your Projects</h1>
         </div>
 
         <div id="toc" class="toc">
-            
-            <hr>
-            <div class="ulist">
-<ul>
-<li>
-<p>Get Started</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="overview.html">Overview of DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="configure.html">Configure DeltaSpike in Your Projects</a></p>
-</li>
-<li>
-<p><a href="cdiimp.html">Enable CDI For Your Java Environment</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/examples.html">See DeltaSpike in Action</a></p>
-</li>
+            <ul class="sectlevel1">
+<li><a href="#_option_a_configure_deltaspike_in_maven_based_projects">Option A: Configure DeltaSpike in Maven-based Projects</a></li>
+<li><a href="#config-maven-indep">Option B: Configure DeltaSpike in Maven-independent Projects</a></li>
+<li><a href="#_next">Next</a></li>
 </ul>
+            <hr>
+            <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>DeltaSpike is available for use in Maven-based and Maven-independent projects. Instructions are given here for obtaining released final versions of DeltaSpike for both approaches.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can also opt to use the lastest DeltaSpike snapshots; for more information, see <a href="snapshots.html">Use DeltaSpike Snapshots</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_option_a_configure_deltaspike_in_maven_based_projects">Option A: Configure DeltaSpike in Maven-based Projects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>DeltaSpike released versions are available from the Maven Central repository for use in Maven-based projects. This means that you do not need to modify your Maven configuration <code>settings.xml</code> file; when building projects, Maven automatically searches the online Maven Central repository for project dependencies and downloads sources to your local Maven repository.</p>
+</div>
+<div class="paragraph">
+<p>To begin use the DeltaSpike releases from Maven Central, you simply need to configure the project <code>pom.xml</code> file for each project with information about the release version and modules you want to use. At a minimum, you must add the DeltaSpike Core module, which provides the DeltaSpike API and utility classes.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the project <code>pom.xml</code> file for editing</p>
+</li>
+<li>
+<p>Add the DeltaSpike version to the list of properties</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;properties&gt;</span>
+    <span class="tag">&lt;deltaspike.version&gt;</span>1.3.0<span class="tag">&lt;/deltaspike.version&gt;</span>
+<span class="tag">&lt;/properties&gt;</span></code></pre>
+</div>
 </div>
 </li>
 <li>
-<p>Use Individual Modules</p>
+<p>Add the DeltaSpike Core module to the list of dependencies</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.deltaspike.core<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>deltaspike-core-api<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${deltaspike.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>compile<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+
+<span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.deltaspike.core<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>deltaspike-core-impl<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${deltaspike.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Save the <code>pom.xml</code> file changes</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The API is scoped for compile time and implementation only included for runtime, assisting to prevent you from inadvertantly depending on an implementation class.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For instructions on adding the optional DeltaSpike modules, see the relevant module page:</p>
+</div>
 <div class="ulist">
 <ul>
-<li>
-<p><a href="modules.html">Overview of DeltaSpike Modules</a></p>
-</li>
-<li>
-<p><a href="core.html">Core</a></p>
-</li>
 <li>
 <p><a href="bean-validation.html">Bean Validation</a></p>
 </li>
@@ -256,46 +314,69 @@ body {
 </li>
 </ul>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="config-maven-indep">Option B: Configure DeltaSpike in Maven-independent Projects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Deltaspike is provided as a set of downloadable .jar files for projects not utilizing the Maven build system. Alternatively, you can build the DeltaSpike .jar files from source; for instructions, see <a href="build.html">Build DeltaSpike from Source</a>. In both cases, you must add the DeltaSpike .jar files directly to your projects.</p>
+</div>
+<div class="paragraph">
+<p>To use DeltaSpike without Maven from the downloadable .jar files, complete the following steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the latest <code>distribution-full-&lt;version&gt;.zip</code> from <a href="https://deltaspike.apache.org/download.html" class="bare">https://deltaspike.apache.org/download.html</a></p>
 </li>
 <li>
-<p>Advanced Information</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="build.html">Build and Test DeltaSpike from Source</a></p>
-</li>
-<li>
-<p><a href="snapshots.html">Use DeltaSpike Snapshots</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/migration-guide.html">Migrate to DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="source.html">Contribute to the DeltaSpike Source</a></p>
-</li>
-<li>
-<p><a href="spi.html">DeltaSpike Service Provider Interface (SPI)</a></p>
-</li>
-</ul>
+<p>Extract the archive contents</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">$ unzip distribution-full-&lt;version&gt;.zip</code></pre>
+</div>
 </div>
 </li>
 <li>
-<p>Access More DeltaSpike Resources</p>
+<p>Add the source to your project</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>For .war projects, copy the .jar files to the <code>WEB-INF/lib</code> directory</p>
+</li>
+<li>
+<p>For .ear projects, copy the .jar files to the <code>EAR/lib directory</code> and add the following to <code>META-INF/application.xml</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;library-directory&gt;</span>lib<span class="tag">&lt;/library-directory&gt;</span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next">Next</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://deltaspike.apache.org/articles.html">Articles and Blogs</a></p>
+<p>To check whether your Java environment needs any additional CDI-specific configuration, see <a href="cdiimp.html">Enable CDI For Your Java Environment</a>.</p>
 </li>
 <li>
-<p><a href="http://deltaspike.apache.org/addons.html">Add-ons</a></p>
+<p>To see ready-to-deploy example DeltaSpike applications, see <a href="http://deltaspike.apache.org/examples.html">See DeltaSpike in Action</a>.</p>
 </li>
 <li>
-<p><a href="https://deltaspike.apache.org/external.html">External Examples</a></p>
+<p>To understand how the various DeltaSpike modules can enhance and extend your applications, see <a href="modules.html">Overview of DeltaSpike Modules</a> and the individual module pages.</p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
+</div>
 </div>
         </div>
 

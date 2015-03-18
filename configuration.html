@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="deltaspike-generate-pages">
+<meta name="author" content="chm">
+<!-- No caching headers -->
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+
+<title>DeltaSpike Configuration Mechanism</title>
+
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<!-- Styles -->
+
+<link href="https://deltaspike.apache.org/resources/css/bootstrap.css" rel="stylesheet">
+<link href="https://deltaspike.apache.org/resources/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" rel="stylesheet" >
+
+<style type="text/css">
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
+/*pre.CodeRay {background-color:#f7f7f8;}*/
+.CodeRay .line-numbers{border-right:1px solid #d8d8d8;padding:0 0.5em 0 .25em}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.5em;color:rgba(0,0,0,.3)}
+.CodeRay .line-numbers strong{font-weight: normal}
+table.CodeRay{border-collapse:separate;border-spacing:0;margin-bottom:0;border:0;background:none}
+table.CodeRay td{vertical-align: top}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.line-numbers>pre{padding:0;color:rgba(0,0,0,.3)}
+table.CodeRay td.code{padding:0 0 0 .5em}
+table.CodeRay td.code>pre{padding:0}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:#000080}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:#008080}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#00}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:#008080}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:#008080}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+</style>
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36103647-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse"
+          data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+          class="icon-bar"></span> <span class="icon-bar"></span>
+        </a>
+        <a class="brand logocolor" href="../index.html">Apache DeltaSpike</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><a href="../index.html">Home</a></li>
+            <li><a href="../documentation">Documentation</a></li>
+            <li><a href="../javadoc.html">Javadoc</a></li>
+            <li><a href="../documentation/source.html">Source</a></li>
+            <li><a href="../download.html">Download</a></li>
+            <li><a href="../community.html">Community</a></li>
+            <!-- <li><a href="./support.html">Support</a></li>  -->
+            <li><a href="../news.html">News</a></li>
+            <li><a href="../migration-guide.html">Migration</a></li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+        <form id="search-form" action="http://www.google.com/search"
+          method="get" class="navbar-search pull-right">
+          <input value="deltaspike.apache.org" name="sitesearch"
+            type="hidden"> <input class="search-query" name="q"
+            id="query" type="text">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <div class="page-title">
+          <h1>DeltaSpike Configuration Mechanism</h1>
+        </div>
+
+        <div id="toc" class="toc">
+            <ul class="sectlevel1">
+<li><a href="#_configuration_basics">Configuration Basics</a>
+<ul class="sectlevel2">
+<li><a href="#_benefits_for_production">Benefits for Production</a></li>
+<li><a href="#_drop_in_configuration">Drop-In Configuration</a></li>
+<li><a href="#_cdi_extension_configuration">CDI-Extension Configuration</a></li>
+<li><a href="#_userland_configuration">Userland Configuration</a></li>
+</ul>
+</li>
+<li><a href="#_configresolver">ConfigResolver</a>
+<ul class="sectlevel2">
+<li><a href="#_getpropertyvalue">getPropertyValue()</a></li>
+<li><a href="#_getprojectstageawarepropertyvalue">getProjectStageAwarePropertyValue()</a></li>
+<li><a href="#_getpropertyawarepropertyvalue">getPropertyAwarePropertyValue()</a></li>
+<li><a href="#_handling_of_default_values">Handling of Default Values</a></li>
+</ul>
+</li>
+<li><a href="#_configsource">ConfigSource</a>
+<ul class="sectlevel2">
+<li><a href="#_configsources_provided_by_default">ConfigSources Provided by Default</a></li>
+<li><a href="#_reordering_of_the_default_order_of_configsources">Reordering of the Default Order of ConfigSources</a></li>
+<li><a href="#_custom_configsources">Custom ConfigSources</a>
+<ul class="sectlevel3">
+<li><a href="#_propertyfileconfig">PropertyFileConfig</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_type_safe_configuration">Type-safe Configuration</a></li>
+</ul>
+            <hr>
+            <div class="sect1">
+<h2 id="_configuration_basics">Configuration Basics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The goal of the DeltaSpike configuration mechanism is to make it
+obsolete to touch released binaries for changing the configuration of
+your project. All values which are needed in your code (but should not
+be hardcoded as static final constants) can be maintained via
+DeltaSpikes own configuration mechanism in a very flexible and powerful
+way.</p>
+</div>
+<div class="sect2">
+<h3 id="_benefits_for_production">Benefits for Production</h3>
+<div class="paragraph">
+<p>Once a binary like a WAR file or an EAR got created and tested, it must
+<em>not</em> get changed anymore. The exact same binary which got created by
+the release manager will get moved to the Test system, then further
+propagated to the Staging environment and finally (if all people are
+happy with it) will get moved to the Production system. And all this
+without any changes on the binary itself!</p>
+</div>
+<div class="paragraph">
+<p>The Apache DeltaSpike configuration system makes this possible by
+providing a default configuration inside the binary and allowing to
+amend this configuration (e.g. database credentials, some URLs from
+remote REST or SOAP endpoints, etc) from outside like environment
+settings, JNDI or the current <a href="projectstage.html">ProjectStage</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_drop_in_configuration">Drop-In Configuration</h3>
+<div class="paragraph">
+<p>This mechanism also allows for dynamic configuration in case of a JAR
+drop-in. By adding some JAR to the classpath, all its contained
+configuration will get picked up and considered in the property value
+evaluation. You could also use this mechanism to switch implementations
+of some SPI (Service Provider Interface) in your own code.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cdi_extension_configuration">CDI-Extension Configuration</h3>
+<div class="paragraph">
+<p>In some cases low-level configs are needed, for example during the bootstrapping
+process of the CDI container.</p>
+</div>
+<div class="paragraph">
+<p>The good news: our DeltaSpike configuration mechanism does not rely on
+any other EE mechanism to be booted. Which means it can perfectly get
+used to even configure those parts itself. Since the mechanism does not
+rely on CDI it can for example be used to configure CDI-Extensions.</p>
+</div>
+<div class="paragraph">
+<p>Currently this is, for example, used to configure the value of the current <a href="projectstage.html">ProjectStage</a>, configured values which can be
+used in the expressions for <code>@Exclude</code>, 'Deactivatable', etc. DeltaSpike
+needs such a low-level approach for several features internally, but
+users can utilize it for their own needs as well. This is done by using
+the <code>ConfigResolver</code> which resolves and caches `ConfigSource`s per
+application.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_userland_configuration">Userland Configuration</h3>
+<div class="paragraph">
+<p>DeltaSpike also provides a mechanism to inject those configured values
+using the <code>@ConfigProperty</code> CDI Qualifier.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configresolver">ConfigResolver</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>ConfigResolver</code> is the central point to pick up configured values
+in DeltaSpike.</p>
+</div>
+<div class="sect2">
+<h3 id="_getpropertyvalue">getPropertyValue()</h3>
+<div class="paragraph">
+<p>The method <code>ConfigResolver#getPropertyValue(String key)</code> allows to
+provide a string based key and returns the configured value as <code>String</code>,
+or <code>null</code> if no value has been found.</p>
+</div>
+<div class="paragraph">
+<p><code>ConfigResolver#getAllPropertyValues(String key)</code> has a similar contract
+but it returns a list which might be empty if there are no configured
+values for the given key.</p>
+</div>
+<div class="paragraph">
+<p>This is a code excerpt about how to do a simple lookup in the deltaspike
+configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> dbUserName = ConfigResolver.getPropertyValue(<span class="string"><span class="delimiter">&quot;</span><span class="content">databaseconfig.username</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_getprojectstageawarepropertyvalue">getProjectStageAwarePropertyValue()</h3>
+<div class="paragraph">
+<p>The method
+<code>ConfigResolver#getProjectStageAwarePropertyValue(String key)</code> utilizes
+the <a href="projectstage.html">DeltaSpike ProjectStage</a> mechanism to allow
+configured values to depend on the current <code>ProjectStage</code> of the system
+we run on.</p>
+</div>
+<div class="paragraph">
+<p>This is done by first looking up the ProjectStage (this internally
+happens with the DeltaSpike ConfigResolver as well) and then go down the
+following lookup chain until we found a configured value.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>key + '.' + projectStage , e.g. "databaseconfig.username.Production"</p>
+</li>
+<li>
+<p>key alone , e.g. "databaseconfig.username"</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_getpropertyawarepropertyvalue">getPropertyAwarePropertyValue()</h3>
+<div class="paragraph">
+<p>The method
+<code>ConfigResolver#getProjectStageAwarePropertyValue(String key, String property)</code>
+first looks up the configured value of the given property and uses this
+value to determine the final lookup path. All those lookups take the
+<a href="projectstage.html">DeltaSpike ProjectStage</a> mechanism into account.</p>
+</div>
+<div class="paragraph">
+<p>Given we have the following code in our program:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> dbUserName = ConfigResolver.getPropertyAwarePropertyValue(<span class="string"><span class="delimiter">&quot;</span><span class="content">databaseconfig.username</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">dbvendor</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will end up in the following lookup sequences. First we need to
+resolve the value of the property:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>propertyValue = property + '.' + projectStage, e.g. "dbvendor.Production"</p>
+</li>
+<li>
+<p>if nothing found: propertyValue = property, e.g. "dbvendor"</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s assume we found the value 'mysql' for our dbvendor. In this case
+the following lookup chain is used until a value got found:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>key + '.' + property + projectstage, e.g. "databaseconfig.username.mysql.Production"</p>
+</li>
+<li>
+<p>key + '.' + property, e.g. "databaseconfig.username.mysql"</p>
+</li>
+<li>
+<p>key + '.' + projectstage, e.g. "databaseconfig.username.Production"</p>
+</li>
+<li>
+<p>key, e.g. "databaseconfig.username"</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_handling_of_default_values">Handling of Default Values</h3>
+<div class="paragraph">
+<p>There is a 2nd variant of all those methods where it is possible to
+provide a default value which gets returned instead of <code>null</code> or if the
+final result is an empty String.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="title">Performance Hint</div>
+The only <code>ConfigResolver</code> operation which is cached is the determination
+of the <code>ConfigSources</code>. The various getPropertyValue operations are not
+cached in the ConfigResolver but might be cached in the ConfigSources.
+This makes the overall calculation a bit slower, but allows for values
+to change dynamically if someone likes to for example implement a
+<code>JmxConfigSource</code> (not yet part of DeltaSpike, but easily
+implementable).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configsource">ConfigSource</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>ConfigSource</code> is exactly what its name says: a source for configured
+values. The <code>ConfigResolver</code> uses all configured implementations of
+<code>ConfigSource</code> to lookup the property in question.</p>
+</div>
+<div class="paragraph">
+<p>Each 'ConfigSource' has a specified 'ordinal' which can be configured
+using the key <code>deltaspike_ordinal</code>. This ordinal get&#8217;s used to determine
+the importance of the values taken from the very ConfigSource. A higher
+ordinal means that the values taken from this ConfigSource will override
+values from less important ConfigSources. This is the trick which allows
+to amend configuration from outside a binary - given those outside
+ConfigSources have a higher <code>deltaspike_ordinal</code> than the ones who
+pickup the values from within the release binaries.</p>
+</div>
+<div class="sect2">
+<h3 id="_configsources_provided_by_default">ConfigSources Provided by Default</h3>
+<div class="paragraph">
+<p>By default there are implementations for the following configuration sources
+(listed in the lookup order):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>System properties (deltaspike_ordinal = 400)</p>
+</li>
+<li>
+<p>Environment properties (deltaspike_ordinal = 300)</p>
+</li>
+<li>
+<p>JNDI values (deltaspike_ordinal = 200, the base name is "java:comp/env/deltaspike/")</p>
+</li>
+<li>
+<p>Properties file values (apache-deltaspike.properties) (deltaspike_ordinal = 100, default filename is "META-INF/apache-deltaspike.properties")</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>It is possible to change this order and to add custom configuration sources.</strong></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="title">Important Tips Especially for Custom Implementations</div>
+- The config-source with the highest ordinal gets used first. - If a custom
+implementation should be invoked <em>before</em> the default implementations,
+use an ordinal-value &gt; 400. - If a custom implementation should be
+invoked <em>after</em> the default implementations, use an ordinal-value &lt; 100.
+- The <code>ConfigResolver</code> performs no caching. If your custom ConfigSource
+operation is expensive, then you might think about introducing some
+caching.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reordering_of_the_default_order_of_configsources">Reordering of the Default Order of ConfigSources</h3>
+<div class="paragraph">
+<p>To change the lookup order, you have to configure the ordinal in the
+corresponding configuration source (e.g. to change the configuration ordinal of the
+configuration source for system properties, you have to set the system property
+with the ordinal key 'deltaspike_ordinal' and the new value).</p>
+</div>
+<div class="paragraph">
+<p>Example with <code>/META-INF/apache-deltaspike.properties</code>: If the properties
+file/s should be used <strong>before</strong> the other implementations, you have to
+configure an ordinal &gt; 400. That means, you have to add for example
+<code>deltaspike_ordinal=401</code>.</p>
+</div>
+<div class="paragraph">
+<p>Each single property file is treated as own <code>ConfigSource</code> and thus can
+have different <code>deltaspike_ordinal</code> values!</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In case of <strong>property files</strong> which are supported by default
+(<code>/META-INF/apache-deltaspike.properties</code>) every file is handled as
+independent config-source, but all of them have ordinal 400 by default
+(and can be reordered in a fine-grained manner).
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_custom_configsources">Custom ConfigSources</h3>
+<div class="paragraph">
+<p>ConfigSources are picked up using the `java.util.ServiceLoader'
+mechanism.</p>
+</div>
+<div class="paragraph">
+<p>To add a custom config-source, you have to implement the interface
+<code>ConfigSource</code> and register your implementation in a file
+<code>/META-INF/services/org.apache.deltaspike.core.spi.config.ConfigSource</code>
+by writing the fully qualified class name of the custom implementation/s
+into it.</p>
+</div>
+<div class="paragraph">
+<p>If you need dynamic ConfigSources you can also register a
+<code>ConfigSourceProvider</code> in a similar way. This is useful if you like to
+dynamically pick up multiple ConfigSources of the same kind. For example, if you
+like to pick up all <code>myproject.properties</code> files from all the JARs in
+your classpath.</p>
+</div>
+<div class="paragraph">
+<p>Please note that a single <code>ConfigSource</code> should be either registered
+directly or via a <code>ConfigSourceProvider</code>, but never both ways.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Have a look at the abstract base-implementation of <code>ConfigSource</code>
+DeltaSpike is using internally, if a custom implementation should load
+the ordinal value from the config-source like the default
+implementations provided by DeltaSpike do.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_propertyfileconfig">PropertyFileConfig</h4>
+<div class="paragraph">
+<p>For registering all your own property files of a certain name in your
+classpath to get picked up as <code>ConfigSource`s you can also provide a
+class which implements the `PropertyFileConfig</code> interface.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">MyCustomPropertyFileConfig</span> <span class="directive">implements</span> PropertyFileConfig
+{
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">String</span> getPropertyFileName()
+    {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">myconfig.properties</span><span class="delimiter">&quot;</span></span>;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>Note: If you are using WildFly with EAR packaging and with
+ear-subdeployments-isolated=true, then your EAR should have a deployment
+dependency to the module that contains the property file.</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;jboss-deployment-structure&gt;</span>
+    <span class="tag">&lt;ear-subdeployments-isolated&gt;</span>true<span class="tag">&lt;/ear-subdeployments-isolated&gt;</span>
+      <span class="tag">&lt;deployment&gt;</span>
+            <span class="tag">&lt;dependencies&gt;</span>
+            <span class="comment">&lt;!-- This module contains the custom PropertyFileConfig and the property file --&gt;</span>
+                  <span class="tag">&lt;module</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">deployment.yourproject.ear.yoursubmodule.jar</span><span class="delimiter">&quot;</span></span>  <span class="attribute-name">meta-inf</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">import</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+            <span class="tag">&lt;/dependencies&gt;</span>
+     <span class="tag">&lt;/deployment&gt;</span>
+<span class="tag">&lt;/jboss-deployment-structure&gt;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_type_safe_configuration">Type-safe Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>DeltaSpike provides a way to directly inject configured values into your
+code via the qualifier <code>@ConfigProperty</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>@ApplicationScoped
+public class SomeRandomService
+{
+    @Inject
+    @ConfigProperty(name = "endpoint.poll.interval")
+    private Integer pollInterval;
+
+    @Inject
+    @ConfigProperty(name = "endpoint.poll.servername")
+    private String pollUrl;
+
+    ...
+ }</pre>
+</div>
+</div>
+</div>
+</div>
+        </div>
+
+        <hr>
+
+        <footer>
+          <p>Copyright © 2011-2014 The Apache Software Foundation,
+            Licensed under the Apache License, Version 2.0.</p>
+          <p>Apache and the Apache feather logo are trademarks of The Apache Software Foundation.</p>
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

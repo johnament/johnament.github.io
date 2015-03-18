@@ -10,7 +10,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="expires" content="-1" />
 
-<title>Documentation</title>
+<title>Contribute to the DeltaSpike Source</title>
 
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
@@ -187,115 +187,133 @@ body {
     <div class="row">
       <div class="span12">
         <div class="page-title">
-          <h1>Documentation</h1>
+          <h1>Contribute to the DeltaSpike Source</h1>
         </div>
 
         <div id="toc" class="toc">
-            
+            <ul class="sectlevel1">
+<li><a href="#_1_get_the_source">1. Get the Source</a></li>
+<li><a href="#_2_make_additions_and_changes_to_the_source">2. Make Additions and Changes to the Source</a>
+<ul class="sectlevel2">
+<li><a href="#_intellij">IntelliJ</a></li>
+<li><a href="#_eclipse">Eclipse</a></li>
+</ul>
+</li>
+<li><a href="#_3_build_the_source">3. Build the Source</a></li>
+<li><a href="#_4_make_a_pull_request">4. Make a Pull Request</a></li>
+<li><a href="#_git_resources">Git Resources</a></li>
+</ul>
             <hr>
-            <div class="ulist">
-<ul>
+            <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you are looking to contribute to the DeltaSpike source, you must start with the latest version of the code base. DeltaSpike source is stored in the Apache Git repository at <a href="https://git-wip-us.apache.org/repos/asf/deltaspike.git" class="bare">https://git-wip-us.apache.org/repos/asf/deltaspike.git</a></p>
+</div>
+<div class="paragraph">
+<p>It is also important that you follow the git workflows we have established for the project to ensure efficient and clean collaboration as detailed here.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_get_the_source">1. Get the Source</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>Get Started</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="overview.html">Overview of DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="configure.html">Configure DeltaSpike in Your Projects</a></p>
-</li>
-<li>
-<p><a href="cdiimp.html">Enable CDI For Your Java Environment</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/examples.html">See DeltaSpike in Action</a></p>
-</li>
-</ul>
+<p>Checkout the source</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>git clone https://git-wip-us.apache.org/repos/asf/deltaspike.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or for a read-only mirror version</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>git clone https://github.com/apache/deltaspike</code></pre>
+</div>
 </div>
 </li>
 <li>
-<p>Use Individual Modules</p>
+<p>Update the repository clone</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>git pull --rebase</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_make_additions_and_changes_to_the_source">2. Make Additions and Changes to the Source</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Commits (and in the best case also patches), have to follow our
+"formatting rules". The following section provides settings for IDEs
+used by us.</p>
+</div>
+<div class="sect2">
+<h3 id="_intellij">IntelliJ</h3>
+<div class="paragraph">
+<p><a href="http://deltaspike.apache.org/resources/files/settings.jar">Attached</a> you can find the settings
+for formatting the source code. Import them via File | Import
+Settings</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_eclipse">Eclipse</h3>
+<div class="paragraph">
+<p>For Eclipse you can use this
+<a href="http://deltaspike.apache.org/resources/files/deltaspike-code-conventions.xml">Code Formatter Profile</a>. Import it via Window | Preferences | Java | Code Style | Formatter</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_build_the_source">3. Build the Source</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Always build and test your changes before you make pull requests to the DeltaSpike repository. For instructions on building the source and running Arquillian tests, see <a href="build.html">Build and Test DeltaSpike from Source</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_4_make_a_pull_request">4. Make a Pull Request</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ensure your commits and pull requests follow the our established <a href="https://deltaspike.apache.org/suggested-git-workflows.html">DeltaSpike GIT workflow</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_git_resources">Git Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For general information about Git and using Git, see the following:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="modules.html">Overview of DeltaSpike Modules</a></p>
+<p><a href="http://wiki.apache.org/couchdb/Git_At_Apache_Guide">Git At Apache Guide</a></p>
 </li>
 <li>
-<p><a href="core.html">Core</a></p>
+<p><a href="http://git-wip-us.apache.org">Git at The ASF</a></p>
 </li>
 <li>
-<p><a href="bean-validation.html">Bean Validation</a></p>
+<p><a href="http://git.or.cz/course/svn.html">Git - SVN Crash Course</a></p>
 </li>
 <li>
-<p><a href="container-control.html">Container Control</a></p>
+<p><a href="http://git-scm.com/book">Pro Git</a></p>
 </li>
 <li>
-<p><a href="data.html">Data</a></p>
-</li>
-<li>
-<p><a href="jpa.html">JPA</a></p>
-</li>
-<li>
-<p><a href="jsf.html">JSF</a></p>
-</li>
-<li>
-<p><a href="partial-bean.html">Partial-Bean</a></p>
-</li>
-<li>
-<p><a href="scheduler.html">Scheduler</a></p>
-</li>
-<li>
-<p><a href="security.html">Security</a></p>
-</li>
-<li>
-<p><a href="servlet.html">Servlet</a></p>
-</li>
-<li>
-<p><a href="test-control.html">Test-Control</a></p>
+<p><a href="https://help.github.com/articles/which-remote-url-should-i-use">GitHub: Which remote URL should I use?</a></p>
 </li>
 </ul>
 </div>
-</li>
-<li>
-<p>Advanced Information</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="build.html">Build and Test DeltaSpike from Source</a></p>
-</li>
-<li>
-<p><a href="snapshots.html">Use DeltaSpike Snapshots</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/migration-guide.html">Migrate to DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="source.html">Contribute to the DeltaSpike Source</a></p>
-</li>
-<li>
-<p><a href="spi.html">DeltaSpike Service Provider Interface (SPI)</a></p>
-</li>
-</ul>
 </div>
-</li>
-<li>
-<p>Access More DeltaSpike Resources</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://deltaspike.apache.org/articles.html">Articles and Blogs</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/addons.html">Add-ons</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/external.html">External Examples</a></p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
 </div>
         </div>
 

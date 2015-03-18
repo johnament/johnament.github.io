@@ -10,7 +10,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="expires" content="-1" />
 
-<title>Documentation</title>
+<title>DeltaSpike ProjectStage</title>
 
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
@@ -187,115 +187,167 @@ body {
     <div class="row">
       <div class="span12">
         <div class="page-title">
-          <h1>Documentation</h1>
+          <h1>DeltaSpike ProjectStage</h1>
         </div>
 
         <div id="toc" class="toc">
-            
+            <ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_custom_project_stages">Custom Project Stages</a></li>
+<li><a href="#_setting_the_active_projectstage">Setting the active ProjectStage</a></li>
+<li><a href="#_projectstageproducer_for_third_party_portable_extensions">ProjectStageProducer (for Third-party Portable Extensions)</a></li>
+</ul>
             <hr>
-            <div class="ulist">
-<ul>
-<li>
-<p>Get Started</p>
+            <div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Project stages allow to use implementations depending on the current
+environment. For example, you can implement a bean which creates sample-data for
+system tests which gets activated only in case of ProjectStage
+<code>SystemTest</code>.</p>
+</div>
+<div class="paragraph">
+<p><em>Besides custom ProjectStages</em> it is possible to use the following
+pre-defined ProjectStages:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="overview.html">Overview of DeltaSpike</a></p>
+<p>UnitTest</p>
 </li>
 <li>
-<p><a href="configure.html">Configure DeltaSpike in Your Projects</a></p>
+<p>Development</p>
 </li>
 <li>
-<p><a href="cdiimp.html">Enable CDI For Your Java Environment</a></p>
+<p>SystemTest</p>
 </li>
 <li>
-<p><a href="http://deltaspike.apache.org/examples.html">See DeltaSpike in Action</a></p>
+<p>IntegrationTest</p>
+</li>
+<li>
+<p>Staging</p>
+</li>
+<li>
+<p>Production</p>
 </li>
 </ul>
 </div>
-</li>
-<li>
-<p>Use Individual Modules</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="modules.html">Overview of DeltaSpike Modules</a></p>
-</li>
-<li>
-<p><a href="core.html">Core</a></p>
-</li>
-<li>
-<p><a href="bean-validation.html">Bean Validation</a></p>
-</li>
-<li>
-<p><a href="container-control.html">Container Control</a></p>
-</li>
-<li>
-<p><a href="data.html">Data</a></p>
-</li>
-<li>
-<p><a href="jpa.html">JPA</a></p>
-</li>
-<li>
-<p><a href="jsf.html">JSF</a></p>
-</li>
-<li>
-<p><a href="partial-bean.html">Partial-Bean</a></p>
-</li>
-<li>
-<p><a href="scheduler.html">Scheduler</a></p>
-</li>
-<li>
-<p><a href="security.html">Security</a></p>
-</li>
-<li>
-<p><a href="servlet.html">Servlet</a></p>
-</li>
-<li>
-<p><a href="test-control.html">Test-Control</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>The core provides a pluggable and type-safe approach for using project
+stages in a project (it is also used within the framework). Furthermore,
+<code>@Exclude</code> allows use of, for example, implementations annotated with
+<code>javax.enterprise.inject.Alternative</code> for specific ProjectStages.
+Besides the out-of-the-box ProjectStages it is possible to implement
+<em>custom but type-safe</em> ProjectStages which will be exposed by
+DeltaSpike.</p>
 </div>
-</li>
-<li>
-<p>Advanced Information</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="build.html">Build and Test DeltaSpike from Source</a></p>
-</li>
-<li>
-<p><a href="snapshots.html">Use DeltaSpike Snapshots</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/migration-guide.html">Migrate to DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="source.html">Contribute to the DeltaSpike Source</a></p>
-</li>
-<li>
-<p><a href="spi.html">DeltaSpike Service Provider Interface (SPI)</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Resolving and using the ProjectStage:</p>
 </div>
-</li>
-<li>
-<p>Access More DeltaSpike Resources</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://deltaspike.apache.org/articles.html">Articles and Blogs</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/addons.html">Add-ons</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/external.html">External Examples</a></p>
-</li>
-</ul>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Inject</span>
+<span class="directive">private</span> ProjectStage projectStage;
+
+<span class="comment">//...</span>
+
+<span class="type">boolean</span> isDevProjectStage = ProjectStage.Development.equals(<span class="local-variable">this</span>.projectStage);</code></pre>
 </div>
-</li>
-</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_custom_project_stages">Custom Project Stages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is possible to provide custom project stage implementations.
+Therefore, you have to provide an implementation of the
+<code>ProjectStageHolder</code> interface. In this class you nest the custom
+ProjectStage implementations which have to be
+<code>public static final class</code> and it is required to extend <code>ProjectStage</code>.
+It is required to provide a <code>public static final</code> instance even though,
+you will not use it directly.</p>
+</div>
+<div class="paragraph">
+<p>ProjectStageHolder for custom project stage implementations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">CustomProjectStageHolder</span> <span class="directive">implements</span> ProjectStageHolder
+{
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">class</span> <span class="class">CustomProjectStage</span> <span class="directive">extends</span> ProjectStage
+    {
+        <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">long</span> serialVersionUID = <span class="integer">1029094387976167179L</span>;
+    }
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> CustomProjectStage CustomProjectStage = <span class="keyword">new</span> CustomProjectStage();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure your custom <code>ProjectStageHolder</code> in
+<code>META-INF/services/org.apache.deltaspike.core.api.projectstage.ProjectStageHolder</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The file has to provide the <em>fully qualified</em> class name of the custom
+implementation of the <code>ProjectStageHolder</code> interface.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Usage of a custom project stage:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">ProjectStage customProjectStage;
+customProjectStage = ProjectStage.valueOf(<span class="string"><span class="delimiter">&quot;</span><span class="content">CustomProjectStage</span><span class="delimiter">&quot;</span></span>);
+<span class="comment">//or</span>
+customProjectStage = CustomProjectStageHolder.CustomProjectStage;
+<span class="comment">//or</span>
+<span class="annotation">@Exclude</span>(ifProjectStage = CustomProjectStageHolder.CustomProjectStage.class)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setting_the_active_projectstage">Setting the active ProjectStage</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For setting the ProjectStage which shall get used in your application
+you can specify it in a few ways. The underlying mechanism used to
+determine the string is the ConfigResolver.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>-Dorg.apache.deltaspike.ProjectStage=Development</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_projectstageproducer_for_third_party_portable_extensions">ProjectStageProducer (for Third-party Portable Extensions)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>ProjectStageProducer</code> provides the producer method which allows to
+inject the current ProjectStage. However, in some cases it is needed to
+use ProjectStages also during the bootstrapping process of the CDI
+container and you cais not use injection. In such cases you can use
+<code>ProjectStageProducer.getInstance().getProjectStage()</code> to resolve the
+current ProjectStage. This helper also contains helpers for unit-tests
+- e.g. <code>#setProjectStage</code>. However, those methods shouldis not be needed
+for users (we just need them for testing different ProjectStage
+scenarios).</p>
+</div>
+</div>
 </div>
         </div>
 

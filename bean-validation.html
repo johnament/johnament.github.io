@@ -10,7 +10,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="expires" content="-1" />
 
-<title>Documentation</title>
+<title>Bean Validation Module</title>
 
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
@@ -187,115 +187,102 @@ body {
     <div class="row">
       <div class="span12">
         <div class="page-title">
-          <h1>Documentation</h1>
+          <h1>Bean Validation Module</h1>
         </div>
 
         <div id="toc" class="toc">
-            
+            <ul class="sectlevel1">
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_configure_your_projects">Configure Your Projects</a>
+<ul class="sectlevel2">
+<li><a href="#_declare_bean_validation_module_dependencies">Declare Bean Validation Module Dependencies</a></li>
+</ul>
+</li>
+<li><a href="#_use_the_module_features">Use the Module Features</a>
+<ul class="sectlevel2">
+<li><a href="#_scoping">Scoping</a></li>
+<li><a href="#_code_requirements">Code Requirements</a></li>
+</ul>
+</li>
+</ul>
             <hr>
-            <div class="ulist">
-<ul>
-<li>
-<p>Get Started</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="overview.html">Overview of DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="configure.html">Configure DeltaSpike in Your Projects</a></p>
-</li>
-<li>
-<p><a href="cdiimp.html">Enable CDI For Your Java Environment</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/examples.html">See DeltaSpike in Action</a></p>
-</li>
-</ul>
+            <div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Bean Validation module provides CDI integration for bean validation. It enables the creation of CDI-aware <code>ConstraintValidator</code> methods that can use business objects (EJBs, ManagedBeans) to support validation needs.</p>
 </div>
-</li>
-<li>
-<p>Use Individual Modules</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="modules.html">Overview of DeltaSpike Modules</a></p>
-</li>
-<li>
-<p><a href="core.html">Core</a></p>
-</li>
-<li>
-<p><a href="bean-validation.html">Bean Validation</a></p>
-</li>
-<li>
-<p><a href="container-control.html">Container Control</a></p>
-</li>
-<li>
-<p><a href="data.html">Data</a></p>
-</li>
-<li>
-<p><a href="jpa.html">JPA</a></p>
-</li>
-<li>
-<p><a href="jsf.html">JSF</a></p>
-</li>
-<li>
-<p><a href="partial-bean.html">Partial-Bean</a></p>
-</li>
-<li>
-<p><a href="scheduler.html">Scheduler</a></p>
-</li>
-<li>
-<p><a href="security.html">Security</a></p>
-</li>
-<li>
-<p><a href="servlet.html">Servlet</a></p>
-</li>
-<li>
-<p><a href="test-control.html">Test-Control</a></p>
-</li>
-</ul>
 </div>
-</li>
-<li>
-<p>Advanced Information</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="build.html">Build and Test DeltaSpike from Source</a></p>
-</li>
-<li>
-<p><a href="snapshots.html">Use DeltaSpike Snapshots</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/migration-guide.html">Migrate to DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="source.html">Contribute to the DeltaSpike Source</a></p>
-</li>
-<li>
-<p><a href="spi.html">DeltaSpike Service Provider Interface (SPI)</a></p>
-</li>
-</ul>
 </div>
-</li>
-<li>
-<p>Access More DeltaSpike Resources</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://deltaspike.apache.org/articles.html">Articles and Blogs</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/addons.html">Add-ons</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/external.html">External Examples</a></p>
-</li>
-</ul>
+<div class="sect1">
+<h2 id="_configure_your_projects">Configure Your Projects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The configuration information provided here is for Maven-based projects and it assumes that you have already declared the DeltaSpike version and DeltaSpike Core module for your projects, as detailed in <a href="configure.html">Configure DeltaSpike in Your Projects</a>. For Maven-independent projects, see <a href="configure.html#config-maven-indep">Configure DeltaSpike in Maven-independent Projects</a>.</p>
 </div>
-</li>
-</ul>
+<div class="sect2">
+<h3 id="_declare_bean_validation_module_dependencies">Declare Bean Validation Module Dependencies</h3>
+<div class="paragraph">
+<p>Add the Bean Validation module to the list of dependencies in the project <code>pom.xml</code> file using this code snippet:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.deltaspike.modules<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>deltaspike-bean-validation-module-impl<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${deltaspike.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_the_module_features">Use the Module Features</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_scoping">Scoping</h3>
+<div class="paragraph">
+<p>A <code>ConstraintValidator</code> inherits the scope defined in the bean class.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A <code>ConstraintValidator</code> may be invoked by multiple threads. For this reason, you should consider using at least <code>RequestScoped</code> validators.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_code_requirements">Code Requirements</h3>
+<div class="paragraph">
+<p>There are no compile dependencies to use the Bean Validation module. You
+simply need to override the factory. Then you can build your <code>ConstraintValidator</code> based on CDI programming rules.</p>
+</div>
+<div class="listingblock">
+<div class="title">Overriding in Java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Validation.byDefaultProvider().configure().constraintValidatorFactory(<span class="keyword">new</span> CDIAwareConstraintValidatorFactory()).buildValidatorFactory()</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Overriding in XML</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;validation-config</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://jboss.org/xml/ns/javax/validation/configuration</span><span class="delimiter">&quot;</span></span>
+ <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
+ <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://jboss.org/xml/ns/javax/validation/configuration</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;constraint-validator-factory&gt;</span>org.apache.deltaspike.beanvalidation.impl.CDIAwareConstraintValidatorFactory<span class="tag">&lt;/constraint-validator-factory&gt;</span>
+<span class="tag">&lt;/validation-config&gt;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
         </div>
 

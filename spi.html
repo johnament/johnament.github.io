@@ -10,7 +10,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="expires" content="-1" />
 
-<title>Documentation</title>
+<title>DeltaSpike Service Provider Interface (SPI)</title>
 
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
@@ -187,115 +187,137 @@ body {
     <div class="row">
       <div class="span12">
         <div class="page-title">
-          <h1>Documentation</h1>
+          <h1>DeltaSpike Service Provider Interface (SPI)</h1>
         </div>
 
         <div id="toc" class="toc">
-            
+            <ul class="sectlevel1">
+<li><a href="#_deactivatable">Deactivatable</a>
+<ul class="sectlevel2">
+<li><a href="#_classdeactivator">ClassDeactivator</a></li>
+</ul>
+</li>
+<li><a href="#_configsource">ConfigSource</a>
+<ul class="sectlevel2">
+<li><a href="#_configsourceprovider">ConfigSourceProvider</a></li>
+<li><a href="#_baseconfigpropertyproducer">BaseConfigPropertyProducer</a></li>
+</ul>
+</li>
+<li><a href="#_interceptorstrategy">InterceptorStrategy</a></li>
+<li><a href="#_global_alternative">Global Alternative</a></li>
+</ul>
             <hr>
-            <div class="ulist">
-<ul>
-<li>
-<p>Get Started</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="overview.html">Overview of DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="configure.html">Configure DeltaSpike in Your Projects</a></p>
-</li>
-<li>
-<p><a href="cdiimp.html">Enable CDI For Your Java Environment</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/examples.html">See DeltaSpike in Action</a></p>
-</li>
-</ul>
+            <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>DeltaSpike provides an Service Provider Interface (SPI) to enable you to extend it.</p>
 </div>
-</li>
-<li>
-<p>Use Individual Modules</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="modules.html">Overview of DeltaSpike Modules</a></p>
-</li>
-<li>
-<p><a href="core.html">Core</a></p>
-</li>
-<li>
-<p><a href="bean-validation.html">Bean Validation</a></p>
-</li>
-<li>
-<p><a href="container-control.html">Container Control</a></p>
-</li>
-<li>
-<p><a href="data.html">Data</a></p>
-</li>
-<li>
-<p><a href="jpa.html">JPA</a></p>
-</li>
-<li>
-<p><a href="jsf.html">JSF</a></p>
-</li>
-<li>
-<p><a href="partial-bean.html">Partial-Bean</a></p>
-</li>
-<li>
-<p><a href="scheduler.html">Scheduler</a></p>
-</li>
-<li>
-<p><a href="security.html">Security</a></p>
-</li>
-<li>
-<p><a href="servlet.html">Servlet</a></p>
-</li>
-<li>
-<p><a href="test-control.html">Test-Control</a></p>
-</li>
-</ul>
 </div>
-</li>
-<li>
-<p>Advanced Information</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="build.html">Build and Test DeltaSpike from Source</a></p>
-</li>
-<li>
-<p><a href="snapshots.html">Use DeltaSpike Snapshots</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/migration-guide.html">Migrate to DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="source.html">Contribute to the DeltaSpike Source</a></p>
-</li>
-<li>
-<p><a href="spi.html">DeltaSpike Service Provider Interface (SPI)</a></p>
-</li>
-</ul>
 </div>
-</li>
-<li>
-<p>Access More DeltaSpike Resources</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://deltaspike.apache.org/articles.html">Articles and Blogs</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/addons.html">Add-ons</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/external.html">External Examples</a></p>
-</li>
-</ul>
+<div class="sect1">
+<h2 id="_deactivatable">Deactivatable</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This mechanism is only used for artifacts <strong>like</strong> implementations of (<code>javax.enterprise.inject.spi.Extension</code>) which <strong>cais not</strong> be deactivated with standard CDI mechanisms.</p>
 </div>
-</li>
-</ul>
+<div class="paragraph">
+<p>This interface is just a marker interface which is implemented by all pre-configured DeltaSpike artifacts which can be deactivated manually (e.g. to improve the performance if a part isis not needed, to provide a custom implementation if the default implementation isis not pluggable by default or to bypass an implementation which causes an issue (in this case please also <strong>contact us</strong> and we will fix it)).</p>
+</div>
+<div class="paragraph">
+<p>To deactivate a class it is required to implement <code>ClassDeactivator</code>. Returning 'false' or 'true' allows to de-/activate the class in question. Retuning null means that the current class-deactivator doesis not have information about the class in question and cais not provide a result. Since <code>ClassDeactivator</code> implementations are configured with the low-level configuration of DeltaSpike, the class-deactivator with the highest ordinal has the final decision. DeltaSpike itself doesis not deactivate an implementation, however, an add-on or a third-party portable CDI extension based on DeltaSpike (Core+) can use the concept to deactivate a default implementation of DeltaSpike in favour of its own implementation.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Due to the ordinal feature of the low-level configuration approach it is possible that a class-deactivator with a higher ordinal, for example used in a concrete project, can re-activate a deactivated implementation.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>Please note</strong> that you might have to deactivate the parts of the add-on or third-party CDI extension which relies on its own implementation. Therefore, you should <strong>be really careful with re-activation</strong>.) The implementation should be stateless because the result will be cached and
+as soon as everything is initialized the class-deactivators will not be used any longer.</p>
+</div>
+<div class="sect2">
+<h3 id="_classdeactivator">ClassDeactivator</h3>
+<div class="paragraph">
+<p>A class-deactivator allows to specify deactivated classes.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//This class needs to be configured via one of the supported configuration sources!</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">CustomClassDeactivator</span> <span class="directive">implements</span> ClassDeactivator
+{
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">Boolean</span> isActivated(<span class="predefined-type">Class</span>&lt;? <span class="directive">extends</span> Deactivatable&gt; targetClass)
+    {
+        <span class="keyword">if</span> (targetClass.equals(MyClass.class))
+        {
+            <span class="keyword">return</span> <span class="predefined-type">Boolean</span>.FALSE;
+        }
+        <span class="keyword">return</span> <span class="predefined-constant">null</span>; <span class="comment">//no result for the given class</span>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A class-deactivator will be resolved from the environment via the default resolvers or via a custom resolver which allows to use any type of configuration-format. (see <code>org.apache.deltaspike.core.api.config.ConfigResolver</code>). The key is the fully qualified name of the interface (<code>org.apache.deltaspike.core.spi.activation.ClassDeactivator</code>).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configsource">ConfigSource</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_configsourceprovider">ConfigSourceProvider</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_baseconfigpropertyproducer">BaseConfigPropertyProducer</h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_interceptorstrategy">InterceptorStrategy</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_global_alternative">Global Alternative</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are several application servers (using CDI 1.0) which cais not handle alternative CDI beans correctly (e.g. due to a too strict interpretation or a broken implementation). Therefore, DeltaSpike allows to use the standard <code>@Alternative</code> annotation and an additional configuration entry for DeltaSpike which allows to use the alternative implementation as a global alternative.</p>
+</div>
+<div class="listingblock">
+<div class="title">Standard CDI alternative implementation (without the required XML config)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">CustomBean</span>
+{
+}
+
+<span class="annotation">@Alternative</span>
+<span class="comment">//...</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">AlternativeCustomBean</span> <span class="directive">extends</span> CustomBean
+{
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Instead of configuring the alternative in the beans.xml, a global alternative needs to be configured in /META-INF/apache-deltaspike.properties. CDI 1.1 should fix this issue and migrating to it means to remove the configuration entry for DeltaSpike again and move to the standard CDI configuration approach.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>custom.CustomBean=custom.AlternativeCustomBean</code></pre>
+</div>
+</div>
+</div>
 </div>
         </div>
 

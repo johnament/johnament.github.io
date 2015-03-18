@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="deltaspike-generate-pages">
+<meta name="author" content="chm">
+<!-- No caching headers -->
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+
+<title>Enable CDI For Your Java Environment</title>
+
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<!-- Styles -->
+
+<link href="https://deltaspike.apache.org/resources/css/bootstrap.css" rel="stylesheet">
+<link href="https://deltaspike.apache.org/resources/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" rel="stylesheet" >
+
+<style type="text/css">
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
+/*pre.CodeRay {background-color:#f7f7f8;}*/
+.CodeRay .line-numbers{border-right:1px solid #d8d8d8;padding:0 0.5em 0 .25em}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.5em;color:rgba(0,0,0,.3)}
+.CodeRay .line-numbers strong{font-weight: normal}
+table.CodeRay{border-collapse:separate;border-spacing:0;margin-bottom:0;border:0;background:none}
+table.CodeRay td{vertical-align: top}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.line-numbers>pre{padding:0;color:rgba(0,0,0,.3)}
+table.CodeRay td.code{padding:0 0 0 .5em}
+table.CodeRay td.code>pre{padding:0}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:#000080}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:#008080}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#00}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:#008080}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:#008080}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+</style>
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36103647-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse"
+          data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+          class="icon-bar"></span> <span class="icon-bar"></span>
+        </a>
+        <a class="brand logocolor" href="../index.html">Apache DeltaSpike</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><a href="../index.html">Home</a></li>
+            <li><a href="../documentation">Documentation</a></li>
+            <li><a href="../javadoc.html">Javadoc</a></li>
+            <li><a href="../documentation/source.html">Source</a></li>
+            <li><a href="../download.html">Download</a></li>
+            <li><a href="../community.html">Community</a></li>
+            <!-- <li><a href="./support.html">Support</a></li>  -->
+            <li><a href="../news.html">News</a></li>
+            <li><a href="../migration-guide.html">Migration</a></li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+        <form id="search-form" action="http://www.google.com/search"
+          method="get" class="navbar-search pull-right">
+          <input value="deltaspike.apache.org" name="sitesearch"
+            type="hidden"> <input class="search-query" name="q"
+            id="query" type="text">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <div class="page-title">
+          <h1>Enable CDI For Your Java Environment</h1>
+        </div>
+
+        <div id="toc" class="toc">
+            <ul class="sectlevel1">
+<li><a href="#_java_ee6_containers">Java EE6+ Containers</a></li>
+<li><a href="#_java_ee5_and_servlet_containers">Java EE5 and Servlet Containers</a></li>
+<li><a href="#javase6">Java SE6+</a>
+<ul class="sectlevel2">
+<li><a href="#_1_declare_cdi_dependencies">1. Declare CDI Dependencies</a>
+<ul class="sectlevel3">
+<li><a href="#_option_a_declare_dependencies_for_maven_based_projects">Option A: Declare Dependencies for Maven-based Projects</a></li>
+<li><a href="#_option_b_declare_dependencies_for_maven_independent_projects">Option B: Declare Dependencies for Maven-independent Projects</a></li>
+</ul>
+</li>
+<li><a href="#_2_start_the_cdi_container_from_your_project">2. Start the CDI Container from Your Project</a></li>
+</ul>
+</li>
+<li><a href="#_next">Next</a></li>
+</ul>
+            <hr>
+            <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>DeltaSpike requires a CDI implementation to be available in the Java environment where your projects are deployed. The implementation provides the CDI essentials, managing dependency injection and contextual lifecycles. <a href="http://weld.cdi-spec.org/">JBoss Weld</a> and <a href="http://openwebbeans.apache.org/">Apache OpenWebBeans (OWB)</a> are two widely used CDI implementations. Dependent on the Java environment you choose, some setup may be necessary as detailed here.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_java_ee6_containers">Java EE6+ Containers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>CDI is part of Java EE6 and later so CDI implementations are included as standard in Java EE6+ compliant environments. There is no additional CDI configuration needed besides including the CDI-obligatory <code>beans.xml</code> file in your project.</p>
+</div>
+<div class="paragraph">
+<p>JBoss Weld is integrated in Java EE application servers including WildFly, JBoss Enterprise Application Platform, GlassFish, and Oracle WebLogic.</p>
+</div>
+<div class="paragraph">
+<p>Apache OpenWebBeans (OWB) is integrated in Java EE containers including Apache TomEE, Apache Geronimo, IBM WebSphere Application Server, and SiwPas.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_java_ee5_and_servlet_containers">Java EE5 and Servlet Containers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>CDI implementations are not distributed with Java EE5 application servers or Servlet-only environments such as Apache TomCat and Eclipse Jetty. You can use CDI in these environments by embedding a standalone CDI implementation. Both JBoss Weld and Apache OpenWebBeans can be used for this task; for more information, see the corresponding CDI implementation documentation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="javase6">Java SE6+</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>CDI is not part of Java SE but it can still be used. JBoss Weld and Apache OpenWebBeans implementations can be used to act as dependency injection bean managers but the respective containers must be booted manually.</p>
+</div>
+<div class="paragraph">
+<p>DeltaSpike provides a dedicated Container Control module to enable applications deployed in Java SE environments to boot a CDI container. The Container Control module consists of the API component and components specific to the JBoss Weld, Apache OpenWebBeans and Apache OpenEJB CDI containers. The DeltaSpike module provides a layer of abstraction from the specific CDI containers, enabling you to write container-independent code in your project.</p>
+</div>
+<div class="paragraph">
+<p>Instructions are provided here for adding the required resources to both Maven-based and Maven-independent projects and subsequently booting the CDI container from your project source code.</p>
+</div>
+<div class="sect2">
+<h3 id="_1_declare_cdi_dependencies">1. Declare CDI Dependencies</h3>
+<div class="sect3">
+<h4 id="_option_a_declare_dependencies_for_maven_based_projects">Option A: Declare Dependencies for Maven-based Projects</h4>
+<div class="paragraph">
+<p>For Maven-based projects, the Container Control module is available in Maven Central together with the other DeltaSpike modules. You must configure your project to use the DeltaSpike Container Control API and one of the CDI container-specific modules.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the project <code>pom.xml</code> file for editing</p>
+</li>
+<li>
+<p>Add the DeltaSpike Container Control API to the list of dependencies</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.deltaspike.cdictrl<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>deltaspike-cdictrl-api<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${deltaspike.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>compile<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add CDI container dependencies for one of the container options listed here</p>
+<div class="olist loweralpha">
+<div class="title">For JBoss Weld</div>
+<ol class="loweralpha" type="a">
+<li>
+<p>Add the JBoss Weld version to the list of properties, replacing the version as desired</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;properties&gt;</span>
+    <span class="tag">&lt;weld.version&gt;</span>1.1.9.Final<span class="tag">&lt;/weld.version&gt;</span>
+<span class="tag">&lt;/properties&gt;</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add the JBoss Weld dependency to the list of dependencies</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.jboss.weld.se<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>weld-se<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${weld.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add the DeltaSpike Weld-specific Container Control module to the list of dependencies</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.deltaspike.cdictrl<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>deltaspike-cdictrl-weld<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${deltaspike.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="olist loweralpha">
+<div class="title">For Apache OpenWebBeans</div>
+<ol class="loweralpha" type="a">
+<li>
+<p>Add the Apache OpenWebBeans version to the list of properties, replacing the version as desired</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;properties&gt;</span>
+    <span class="tag">&lt;owb.version&gt;</span>1.2.0<span class="tag">&lt;/owb.version&gt;</span>
+<span class="tag">&lt;/properties&gt;</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add the Apache OpenWebBeans dependencies to the list of dependencies</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.openwebbeans<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>openwebbeans-impl<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${owb.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+
+<span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.openwebbeans<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>openwebbeans-spi<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${owb.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>compile<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add the DeltaSpike Apache OpenWebBeans-specific Container Control module to the list of dependencies</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.deltaspike.cdictrl<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>deltaspike-cdictrl-owb<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${deltaspike.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Save the <code>pom.xml</code> file changes</p>
+</li>
+<li>
+<p>Download all required dependencies</p>
+<div class="listingblock">
+<div class="content">
+<pre>mvn clean install</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_option_b_declare_dependencies_for_maven_independent_projects">Option B: Declare Dependencies for Maven-independent Projects</h4>
+<div class="paragraph">
+<p>For Maven-independent projects, the Container Control module is distributed together with the other DeltaSpike modules in <code>distribution-fill-&lt;version&gt;.zip</code>. You must add two of the files from the <code>cdictrl</code> directory to your project, namely <code>deltaspike-cdictrl-api.jar</code> and the .jar file that corresponds to the CDI container you have chosen. Add these files to the project <code>WEB-INF/lib</code> or <code>EAR/lib</code> directory for .war and .ear projects respectively.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_start_the_cdi_container_from_your_project">2. Start the CDI Container from Your Project</h3>
+<div class="paragraph">
+<p>To start a CDI container in your application, you must instantiate a <code>CdiContainer</code> object and call the <code>#boot</code> method. When <code>#boot</code> is called, the <code>CdiContainer</code> scans CDI-enabled
+archives for beans and CDI extensions. Before the application exits, <code>#shutdown</code> must be called to correctly destroy all beans. An example is given in the code snippet here.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.apache.deltaspike.cdise.api.CdiContainer</span>;
+<span class="keyword">import</span> <span class="include">org.apache.deltaspike.cdise.api.CdiContainerLoader</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MainApp</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+
+        CdiContainer cdiContainer = CdiContainerLoader.getCdiContainer();
+        cdiContainer.boot();
+
+        <span class="comment">// You can use CDI here</span>
+
+        cdiContainer.shutdown();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Starting the container does not automatically start all CDI Contexts. Contexts must be started independently using the provided <code>ContextControl</code> class. An example of starting the Context for <code>@ApplicationScoped</code> beans is added to the code snippet here.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.apache.deltaspike.cdise.api.CdiContainer</span>;
+<span class="keyword">import</span> <span class="include">org.apache.deltaspike.cdise.api.CdiContainerLoader</span>;
+<span class="keyword">import</span> <span class="include">org.apache.deltaspike.cdise.api.ContextControl</span>;
+<span class="keyword">import</span> <span class="include">javax.enterprise.context.ApplicationScoped</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MainApp</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+
+        CdiContainer cdiContainer = CdiContainerLoader.getCdiContainer();
+        cdiContainer.boot();
+
+        <span class="comment">// Starting the application-context enables use of @ApplicationScoped beans</span>
+        ContextControl contextControl = cdiContainer.getContextControl();
+        contextControl.startContext(ApplicationScoped.class);
+
+        <span class="comment">// You can use CDI here</span>
+
+        cdiContainer.shutdown();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To resolve project beans, you can use the DeltaSpike <code>BeanProvider</code> class. Whether <code>EchoService</code> is a concrete implementation or just an interface depends on the application. In the case that it is an interface, the corresponding implementation is resolved. The resolved bean is a standard CDI bean and it can be used for all CDI concepts, such as <code>@Inject</code>, in the class without further uses of <code>BeanProvider</code>. An example of resolving the bean without qualifiers is given in the code snippet here.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">EchoService echoService = BeanProvider.getContextualReference(EchoService.class, <span class="predefined-constant">false</span>);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next">Next</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>For more information about the Container Control module, see <a href="container-control.html">Container Control Module</a>.</p>
+</li>
+<li>
+<p>To understand how the various DeltaSpike modules can enhance and extend your applications, see <a href="modules.html">Overview of DeltaSpike Modules</a> and the individual module pages.</p>
+</li>
+<li>
+<p>To see ready-to-deploy example DeltaSpike applications, see <a href="http://deltaspike.apache.org/examples.html">See DeltaSpike in Action</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+        </div>
+
+        <hr>
+
+        <footer>
+          <p>Copyright © 2011-2014 The Apache Software Foundation,
+            Licensed under the Apache License, Version 2.0.</p>
+          <p>Apache and the Apache feather logo are trademarks of The Apache Software Foundation.</p>
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

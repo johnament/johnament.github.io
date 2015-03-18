@@ -10,7 +10,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="expires" content="-1" />
 
-<title>Documentation</title>
+<title>Overview of DeltaSpike Modules</title>
 
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
@@ -187,116 +187,102 @@ body {
     <div class="row">
       <div class="span12">
         <div class="page-title">
-          <h1>Documentation</h1>
+          <h1>Overview of DeltaSpike Modules</h1>
         </div>
 
         <div id="toc" class="toc">
             
             <hr>
-            <div class="ulist">
-<ul>
-<li>
-<p>Get Started</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="overview.html">Overview of DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="configure.html">Configure DeltaSpike in Your Projects</a></p>
-</li>
-<li>
-<p><a href="cdiimp.html">Enable CDI For Your Java Environment</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/examples.html">See DeltaSpike in Action</a></p>
-</li>
-</ul>
+            <div class="paragraph">
+<p>DeltaSpike consists of ready-to-use modules. These include a core module and a number of optional modules for providing additional enterprise functionality to your applications. An overview of each module is provided here and for more information see the linked individual module pages.</p>
 </div>
-</li>
-<li>
-<p>Use Individual Modules</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="modules.html">Overview of DeltaSpike Modules</a></p>
-</li>
-<li>
-<p><a href="core.html">Core</a></p>
-</li>
-<li>
-<p><a href="bean-validation.html">Bean Validation</a></p>
-</li>
-<li>
-<p><a href="container-control.html">Container Control</a></p>
-</li>
-<li>
-<p><a href="data.html">Data</a></p>
-</li>
-<li>
-<p><a href="jpa.html">JPA</a></p>
-</li>
-<li>
-<p><a href="jsf.html">JSF</a></p>
-</li>
-<li>
-<p><a href="partial-bean.html">Partial-Bean</a></p>
-</li>
-<li>
-<p><a href="scheduler.html">Scheduler</a></p>
-</li>
-<li>
-<p><a href="security.html">Security</a></p>
-</li>
-<li>
-<p><a href="servlet.html">Servlet</a></p>
-</li>
-<li>
-<p><a href="test-control.html">Test-Control</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Advanced Information</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="build.html">Build and Test DeltaSpike from Source</a></p>
-</li>
-<li>
-<p><a href="snapshots.html">Use DeltaSpike Snapshots</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/migration-guide.html">Migrate to DeltaSpike</a></p>
-</li>
-<li>
-<p><a href="source.html">Contribute to the DeltaSpike Source</a></p>
-</li>
-<li>
-<p><a href="spi.html">DeltaSpike Service Provider Interface (SPI)</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Access More DeltaSpike Resources</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://deltaspike.apache.org/articles.html">Articles and Blogs</a></p>
-</li>
-<li>
-<p><a href="http://deltaspike.apache.org/addons.html">Add-ons</a></p>
-</li>
-<li>
-<p><a href="https://deltaspike.apache.org/external.html">External Examples</a></p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. DeltaSpike Modules</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="core.html">Core</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Required</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For fundamental and defining DeltaSpike API and utility classes</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="bean-validation.html">Bean Validation</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For adding CDI support in Bean Validation, enabling creation of CDI aware <code>ConstraintValidator</code> methods that can use business objects (EJBs, ManagedBeans) to support validation needs</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="container-control.html">Container Control</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For CDI container booting and shutdown and associated context lifecycle management</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="data.html">Data</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For an enhanced JPA experience with declarative queries, reducing boilerplate to a minimum</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="jpa.html">JPA</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For transactional context and scope</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="jsf.html">JSF</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For CDI integration with JSF, with type-safe view config, multi-window handling, new scopes (WindowScoped, ViewScope, ViewAccessScoped, GroupedConversationScoped) and integration with DeltaSpike “core” messages and exception handling</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="partial-bean.html">Partial-Bean</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For implementing a generic handler to replace manual implementations of interfaces (or abstract classes)</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="scheduler.html">Scheduler</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For simple integration with Quartz v2 (default) or any other scheduler that supports cron-expressions for job-classes</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="security.html">Security</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For intercept and security checking on method calls</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="servlet.html">Servlet</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For integration with the Java Servlet API, enabling injection of common servlet objects and propagation of servlet events to the CDI event bus</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="test-control.html">Test-Control</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For writing CDI-based tests easily</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
         </div>
 
         <hr>

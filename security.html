@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="deltaspike-generate-pages">
+<meta name="author" content="chm">
+<!-- No caching headers -->
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+
+<title>Security Module</title>
+
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<!-- Styles -->
+
+<link href="https://deltaspike.apache.org/resources/css/bootstrap.css" rel="stylesheet">
+<link href="https://deltaspike.apache.org/resources/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" rel="stylesheet" >
+
+<style type="text/css">
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
+/*pre.CodeRay {background-color:#f7f7f8;}*/
+.CodeRay .line-numbers{border-right:1px solid #d8d8d8;padding:0 0.5em 0 .25em}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.5em;color:rgba(0,0,0,.3)}
+.CodeRay .line-numbers strong{font-weight: normal}
+table.CodeRay{border-collapse:separate;border-spacing:0;margin-bottom:0;border:0;background:none}
+table.CodeRay td{vertical-align: top}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.line-numbers>pre{padding:0;color:rgba(0,0,0,.3)}
+table.CodeRay td.code{padding:0 0 0 .5em}
+table.CodeRay td.code>pre{padding:0}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:#000080}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:#008080}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#00}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:#008080}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:#008080}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+</style>
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36103647-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse"
+          data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+          class="icon-bar"></span> <span class="icon-bar"></span>
+        </a>
+        <a class="brand logocolor" href="../index.html">Apache DeltaSpike</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><a href="../index.html">Home</a></li>
+            <li><a href="../documentation">Documentation</a></li>
+            <li><a href="../javadoc.html">Javadoc</a></li>
+            <li><a href="../documentation/source.html">Source</a></li>
+            <li><a href="../download.html">Download</a></li>
+            <li><a href="../community.html">Community</a></li>
+            <!-- <li><a href="./support.html">Support</a></li>  -->
+            <li><a href="../news.html">News</a></li>
+            <li><a href="../migration-guide.html">Migration</a></li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+        <form id="search-form" action="http://www.google.com/search"
+          method="get" class="navbar-search pull-right">
+          <input value="deltaspike.apache.org" name="sitesearch"
+            type="hidden"> <input class="search-query" name="q"
+            id="query" type="text">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <div class="page-title">
+          <h1>Security Module</h1>
+        </div>
+
+        <div id="toc" class="toc">
+            <ul class="sectlevel1">
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_configure_your_projects">Configure Your Projects</a>
+<ul class="sectlevel2">
+<li><a href="#_1_declare_security_module_dependencies">1. Declare Security Module Dependencies</a></li>
+<li><a href="#_2_enable_the_security_interceptor">2. Enable the Security Interceptor</a></li>
+</ul>
+</li>
+<li><a href="#_use_the_module_features">Use the Module Features</a>
+<ul class="sectlevel2">
+<li><a href="#_securitybinding_for_class_and_method_invocations">SecurityBinding for Class and Method Invocations</a></li>
+<li><a href="#_integrating_third_party_security_frameworks">Integrating Third-party Security Frameworks</a>
+<ul class="sectlevel3">
+<li><a href="#__secured">@Secured</a></li>
+<li><a href="#_accessdecisionvoter">AccessDecisionVoter</a></li>
+<li><a href="#_securityviolation">SecurityViolation</a></li>
+</ul>
+</li>
+<li><a href="#_abstractaccessdecisionvoter">AbstractAccessDecisionVoter</a>
+<ul class="sectlevel3">
+<li><a href="#__secured_and_stereotypes_with_custom_meta_data">@Secured and Stereotypes with Custom Meta-data</a></li>
+</ul>
+</li>
+<li><a href="#_making_intitially_requested_and_secured_page_available_for_redirect_after_login">Making Intitially Requested and Secured Page available for Redirect after Login</a>
+<ul class="sectlevel3">
+<li><a href="#_cdi_implementation_to_redirect_the_login_to_the_first_denied_page">CDI Implementation to Redirect the Login to the First Denied Page</a></li>
+<li><a href="#_picketlink_implementation_to_redirect_the_login_to_the_first_denied_page">PicketLink Implementation to Redirect the Login to the First Denied Page</a></li>
+</ul>
+</li>
+<li><a href="#_accessdecisionvotercontext">AccessDecisionVoterContext</a>
+<ul class="sectlevel3">
+<li><a href="#_securitystrategy_spi">SecurityStrategy SPI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            <hr>
+            <div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Security module provides intercept and security checking on method calls. This module also enables integration of third-party security frameworks and custom security concepts.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configure_your_projects">Configure Your Projects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The configuration information provided here is for Maven-based projects and it assumes that you have already declared the DeltaSpike version and DeltaSpike Core module for your projects, as detailed in <a href="configure.html">Configure DeltaSpike in Your Projects</a>. For Maven-independent projects, see <a href="configure.html#config-maven-indep">Configure DeltaSpike in Maven-independent Projects</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_1_declare_security_module_dependencies">1. Declare Security Module Dependencies</h3>
+<div class="paragraph">
+<p>Add the Security module to the list of dependencies in the project <code>pom.xml</code> file using this code snippet:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.deltaspike.modules<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>deltaspike-security-module-api<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${deltaspike.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>compile<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+
+<span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.apache.deltaspike.modules<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>deltaspike-security-module-impl<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${deltaspike.version}<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_enable_the_security_interceptor">2. Enable the Security Interceptor</h3>
+<div class="paragraph">
+<p>For CDI 1.0 (or DeltaSpike v1.1.0 and earlier together with CDI 1.1+), you must enable the security interceptor in the project <code>beans.xml</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;beans&gt;</span>
+    <span class="comment">&lt;!-- Not needed with CDI 1.1+ and DeltaSpike v1.1.1+ --&gt;</span>
+    <span class="tag">&lt;interceptors&gt;</span>
+        <span class="tag">&lt;class&gt;</span>org.apache.deltaspike.security.impl.extension.SecurityInterceptor<span class="tag">&lt;/class&gt;</span>
+    <span class="tag">&lt;/interceptors&gt;</span>
+<span class="tag">&lt;/beans&gt;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_the_module_features">Use the Module Features</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_securitybinding_for_class_and_method_invocations">SecurityBinding for Class and Method Invocations</h3>
+<div class="paragraph">
+<p>This feature of the Security module intercepts method calls and performs a security check before invocation is allowed to proceed.</p>
+</div>
+<div class="paragraph">
+<p>In order to use the DeltaSpike security module, you must first have
+installed the proper dependencies into the <code>pom.xml</code> file. Once this is
+complete, you may proceed to create a security parameter binding
+annotation. This is what we will use to add security behavior to our
+business classes and methods.</p>
+</div>
+<div class="listingblock">
+<div class="title">Create the SecurityBinding</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Retention</span>(value = RUNTIME)
+<span class="annotation">@Target</span>({TYPE, METHOD})
+<span class="annotation">@Documented</span>
+<span class="annotation">@SecurityBindingType</span>
+<span class="directive">public</span> <span class="annotation">@interface</span> CustomSecurityBinding {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next, we must define an Authorizer class to implement behavior for our
+custom SecurityBindingType. This class is simply a CDI bean which
+declares a @Secures method, qualified with the security binding
+annotation we created in the first step.</p>
+</div>
+<div class="paragraph">
+<p>This method has access to the InvocationContext of the method call, so
+if we need to access parameter arguments, we can do so using the given
+context. Note that we may also inject other beans into the parameter
+list of our @Secures method.</p>
+</div>
+<div class="listingblock">
+<div class="title">Create the Authorizer</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@ApplicationScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">CustomAuthorizer</span>
+{
+    <span class="annotation">@Secures</span>
+    <span class="annotation">@CustomSecurityBinding</span>
+    <span class="directive">public</span> <span class="type">boolean</span> doSecuredCheck(InvocationContext invocationContext, BeanManager manager, <span class="annotation">@LoggedIn</span> User user) <span class="directive">throws</span> <span class="exception">Exception</span>
+    {
+        <span class="keyword">return</span> user.isLoggedIn(); <span class="comment">// perform security check</span>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can then use our new annotation to secure business or bean methods.
+This binding annotation may be placed on the entire class (securing all
+methods,) or on individual methods that you wish to secure.</p>
+</div>
+<div class="listingblock">
+<div class="title">Secure a Bean Method</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@ApplicationScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SecuredBean1</span>
+{
+    <span class="annotation">@CustomSecurityBinding</span>
+    <span class="directive">public</span> <span class="type">void</span> doSomething(Thing thing)
+    {
+        thing.doSomething();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next, we may access parameter values from the method invocation directly
+in our authorizer bean by creating custom @SecurityParameterBinding
+types; this is a simple step once we have completed the work above:</p>
+</div>
+<div class="listingblock">
+<div class="title">Create a Parameter Binding Annotation</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Retention</span>(value = RUNTIME)
+<span class="annotation">@Target</span>({PARAMETER})
+<span class="annotation">@Documented</span>
+<span class="annotation">@SecurityParameterBinding</span>
+<span class="directive">public</span> <span class="annotation">@interface</span> CurrentThing {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, when a secured method is invoked, we can inject actual parameter
+values as arguments into our authorizer method, providing domain-level
+security in our applications:</p>
+</div>
+<div class="listingblock">
+<div class="title">Update the Authorizer to use Parameter Binding</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@ApplicationScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">CustomAuthorizer</span>
+{
+    <span class="annotation">@Secures</span>
+    <span class="annotation">@CustomSecurityBinding</span>
+    <span class="directive">public</span> <span class="type">boolean</span> doSecuredCheck(InvocationContext invocationContext, BeanManager manager, <span class="annotation">@LoggedIn</span> User user, <span class="annotation">@CurrentThing</span> Thing thing) <span class="directive">throws</span> <span class="exception">Exception</span>
+    {
+        <span class="keyword">return</span> thing.hasMember(user); <span class="comment">// perform security check against our method parameter</span>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that our business method must also be annotated.</p>
+</div>
+<div class="listingblock">
+<div class="title">Complete the Parameter Binding</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@ApplicationScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SecuredBean1</span>
+{
+    <span class="annotation">@CustomSecurityBinding</span>
+    <span class="directive">public</span> <span class="type">void</span> doSomething(<span class="annotation">@CurrentThing</span> Thing thing)
+    {
+        thing.doSomething();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our method is now secured, and we are able to use given parameter values
+as part of our security authorizer!</p>
+</div>
+<div class="paragraph">
+<p>There may be cases where you may want to base your authorization logic
+on the result of the secured method and do the security check after the
+method invocation. Just use the same security binding type for that
+case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@ApplicationScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SecuredBean1</span>
+{
+    <span class="annotation">@CustomSecurityBinding</span>
+    <span class="directive">public</span> Thing loadSomething()
+    {
+        <span class="keyword">return</span> thingLoader.load();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you need to access the return value in the authorizer method. You
+can inject it using the @SecuredReturn annotation. Update the Authorizer
+to use a secured return value:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@ApplicationScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">CustomAuthorizer</span>
+{
+    <span class="annotation">@Secures</span>
+    <span class="annotation">@CustomSecurityBinding</span>
+    <span class="directive">public</span> <span class="type">boolean</span> doSecuredCheck(<span class="annotation">@SecuredReturn</span> Thing thing, <span class="annotation">@LoggedIn</span> User user) <span class="directive">throws</span> <span class="exception">Exception</span>
+    {
+        <span class="keyword">return</span> thing.hasMember(user); <span class="comment">// perform security check against the return value</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now the authorization will take place after the method invocation using
+the return value of the business method.</p>
+</div>
+<div class="listingblock">
+<div class="title">Complete the Parameter Binding</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@ApplicationScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SecuredBean1</span>
+{
+    <span class="annotation">@CustomSecurityBinding</span>
+    <span class="directive">public</span> <span class="type">void</span> doSomething(<span class="annotation">@CurrentThing</span> Thing thing)
+    {
+        thing.doSomething();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our method is now secured, and we are able to use given parameter values
+as part of our security authorizer!</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_integrating_third_party_security_frameworks">Integrating Third-party Security Frameworks</h3>
+<div class="sect3">
+<h4 id="__secured">@Secured</h4>
+<div class="paragraph">
+<p><code>@Secured</code> is build on <code>@SecurityBindingType</code> and a very simple
+alternative to the rest of the security module. It is a basic hook to
+integrate a custom security concept, third-party frameworks, etc. It
+doesis not provide a full blown security concept like the rest of the
+security module, but other DeltaSpike modules ensure that the security
+concepts are integrated properly (e.g. correct behaviour within custom
+scope implementations,&#8230;&#8203;). It just allows to integrate other security
+frameworks easily.</p>
+</div>
+<div class="paragraph">
+<p>(In MyFaces CODI it was originally a CDI interceptor. This part changed
+a bit, because between the interceptor and <code>@Secured</code> is the
+<code>@SecurityBindingType</code> concept which triggers <code>@Secured</code> as on possible
+approach. Therefore the basic behaviour remains the same and you can
+think about it like an interceptor.)</p>
+</div>
+<div class="listingblock">
+<div class="title">Securing All Intercepted Methods of a CDI Bean</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//...</span>
+<span class="annotation">@Secured</span>(CustomAccessDecisionVoter.class)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SecuredBean</span>
+{
+    <span class="comment">//...</span>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Securing Specific Methods</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//...</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SecuredBean</span>
+{
+    <span class="annotation">@Secured</span>(CustomAccessDecisionVoter.class)
+    <span class="directive">public</span> <span class="predefined-type">String</span> getResult()
+    {
+        <span class="comment">//...</span>
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_accessdecisionvoter">AccessDecisionVoter</h4>
+<div class="paragraph">
+<p>This interface is (besides the <code>Secured</code> annotation) the most important
+part of the concept. Both artifact types are also the only required
+parts:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">CustomAccessDecisionVoter</span> <span class="directive">implements</span> AccessDecisionVoter
+{
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">Set</span>&lt;SecurityViolation&gt; checkPermission(AccessDecisionVoterContext accessDecisionVoterContext)
+    {
+        <span class="predefined-type">Method</span> method = accessDecisionVoterContext.&lt;InvocationContext&gt;getSource().getMethod();
+
+        <span class="comment">//...</span>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>[TODO] tip about the changed parameter/s</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_securityviolation">SecurityViolation</h4>
+<div class="paragraph">
+<p>In case of a detected violation a <code>SecurityViolation</code> has to be added to
+the result returned by the <code>AccessDecisionVoter</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_abstractaccessdecisionvoter">AbstractAccessDecisionVoter</h3>
+<div class="paragraph">
+<p>You can also implement the abstract class <code>AbstractAccessDecisionVoter</code>.
+This is a convenience class which allows an easier usage:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">CustomAccessDecisionVoter</span> <span class="directive">extends</span> AbstractAccessDecisionVoter
+{
+
+    <span class="annotation">@Override</span>
+    <span class="directive">protected</span> <span class="type">void</span> checkPermission(AccessDecisionVoterContext accessDecisionVoterContext,
+            <span class="predefined-type">Set</span>&lt;SecurityViolation&gt; violations)
+    {
+        <span class="comment">// check for violations</span>
+        violations.add(newSecurityViolation(<span class="string"><span class="delimiter">&quot;</span><span class="content">access not allowed due to ...</span><span class="delimiter">&quot;</span></span>));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="__secured_and_stereotypes_with_custom_meta_data">@Secured and Stereotypes with Custom Meta-data</h4>
+<div class="paragraph">
+<p>If there are multiple <code>AccessDecisionVoter</code> and maybe in different
+constellations, it is easier to provide an expressive CDI stereotypes for
+it. Later on that also allows to change the behaviour in a central
+place.</p>
+</div>
+<div class="listingblock">
+<div class="title">Stereotype Support of @Secured</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Named</span>
+<span class="annotation">@Admin</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyBean</span> <span class="directive">implements</span> <span class="predefined-type">Serializable</span>
+{
+  <span class="comment">//...</span>
+}
+
+<span class="comment">//...</span>
+<span class="annotation">@Stereotype</span>
+<span class="annotation">@Secured</span>(RoleAccessDecisionVoter.class)
+<span class="directive">public</span> <span class="annotation">@interface</span> Admin
+{
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Furthermore, it is possible to provide custom meta-data easily.</p>
+</div>
+<div class="listingblock">
+<div class="title">Stereotype of @Secured with Custom Meta-data</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Named</span>
+<span class="annotation">@Admin</span>(securityLevel=<span class="integer">3</span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyBean</span> <span class="directive">implements</span> <span class="predefined-type">Serializable</span>
+{
+  <span class="comment">//...</span>
+}
+
+<span class="comment">//...</span>
+<span class="annotation">@Stereotype</span>
+<span class="annotation">@Secured</span>(RoleAccessDecisionVoter.class)
+<span class="directive">public</span> <span class="annotation">@interface</span> Admin
+{
+  <span class="type">int</span> securityLevel();
+}
+
+<span class="annotation">@ApplicationScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">RoleAccessDecisionVoter</span> <span class="directive">implements</span> AccessDecisionVoter
+{
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">long</span> serialVersionUID = -<span class="integer">8007511215776345835L</span>;
+
+    <span class="directive">public</span> <span class="predefined-type">Set</span>&lt;SecurityViolation&gt; checkPermission(AccessDecisionVoterContext voterContext)
+    {
+        Admin admin = voterContext.getMetaDataFor(Admin.class.getName(), Admin.class);
+        <span class="type">int</span> level = admin.securityLevel();
+        <span class="comment">//...</span>
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_making_intitially_requested_and_secured_page_available_for_redirect_after_login">Making Intitially Requested and Secured Page available for Redirect after Login</h3>
+<div class="paragraph">
+<p>DeltaSpike can be combined with pure CDI or with any other security
+frameworks (like PicketLink) to track the denied page and make it
+available after user logs in.</p>
+</div>
+<div class="sect3">
+<h4 id="_cdi_implementation_to_redirect_the_login_to_the_first_denied_page">CDI Implementation to Redirect the Login to the First Denied Page</h4>
+<div class="paragraph">
+<p>Your LoginService will fire a custom <code>UserLoggedInEvent</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">LoginService</span> <span class="directive">implements</span> <span class="predefined-type">Serializable</span> {
+
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> <span class="predefined-type">Event</span>&lt;UserLoggedInEvent&gt; userLoggedInEvent;
+
+    <span class="directive">public</span> Usuario login(<span class="predefined-type">String</span> username, <span class="type">char</span><span class="type">[]</span> password) {
+        <span class="comment">//do the loggin process</span>
+        userLoggedInEvent.fire(<span class="keyword">new</span> UserLoggedInEvent());
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use @SessionScoped or @WindowScoped for AdminAccessDecisionVoter and
+store the denied page on your own.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@SessionScoped</span> <span class="comment">//or @WindowScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">AdminAccessDecisionVoter</span> <span class="directive">extends</span> AbstractAccessDecisionVoter {
+
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> ViewConfigResolver viewConfigResolver;
+
+    <span class="directive">private</span> <span class="predefined-type">Class</span>&lt;? <span class="directive">extends</span> ViewConfig&gt; deniedPage = Pages.Home.class;
+
+    <span class="annotation">@Override</span>
+    <span class="directive">protected</span> <span class="type">void</span> checkPermission(AccessDecisionVoterContext context, <span class="predefined-type">Set</span>&lt;SecurityViolation&gt; violations) {
+        <span class="keyword">if</span>(loggedIn) {
+            <span class="comment">//...</span>
+        } <span class="keyword">else</span> {
+            violations.add(<span class="comment">/*...*/</span>);
+            deniedPage = viewConfigResolver.getViewConfigDescriptor(FacesContext.getCurrentInstance().getViewRoot().getViewId()).getConfigClass();
+        }
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">Class</span>&lt;? <span class="directive">extends</span> ViewConfig&gt; getDeniedPage() {
+        <span class="keyword">try</span> {
+            <span class="keyword">return</span> deniedPage;
+        } <span class="keyword">finally</span> {
+            deniedPage = Pages.Home.class;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And in AuthenticationListener you inject AdminAccessDecisionVoter</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">AuthenticationListener</span> {
+
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> ViewNavigationHandler viewNavigationHandler;
+
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> AdminAccessDecisionVoter adminAccessDecisionVoter;
+
+    <span class="directive">public</span> <span class="type">void</span> handleLoggedIn(<span class="annotation">@Observes</span> UserLoggedInEvent event) {
+        <span class="local-variable">this</span>.viewNavigationHandler.navigateTo(adminAccessDecisionVoter.getDeniedPage());
+    }
+
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_picketlink_implementation_to_redirect_the_login_to_the_first_denied_page">PicketLink Implementation to Redirect the Login to the First Denied Page</h4>
+<div class="paragraph">
+<p>Once that PicketLink handles the authentication for you, you only need
+to store the denied page and observe PicketLink <code>LoggedInEvent</code> to
+redirect you back to the denied page.</p>
+</div>
+<div class="paragraph">
+<p>Use @SessionScoped or @WindowScoped for AdminAccessDecisionVoter and
+store the denied page on your own.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@SessionScoped</span> <span class="comment">//or @WindowScoped</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">AdminAccessDecisionVoter</span> <span class="directive">extends</span> AbstractAccessDecisionVoter {
+
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> ViewConfigResolver viewConfigResolver;
+
+    <span class="directive">private</span> <span class="predefined-type">Class</span>&lt;? <span class="directive">extends</span> ViewConfig&gt; deniedPage = Pages.Home.class;
+
+    <span class="annotation">@Override</span>
+    <span class="directive">protected</span> <span class="type">void</span> checkPermission(AccessDecisionVoterContext context, <span class="predefined-type">Set</span>&lt;SecurityViolation&gt; violations) {
+
+        AuthorizationChecker authorizationChecker = BeanProvider.getContextualReference(AuthorizationChecker.class);
+        <span class="type">boolean</span> loggedIn = authorizationChecker.isLoggedIn();
+
+        <span class="keyword">if</span>(loggedIn) {
+            <span class="comment">//...</span>
+        } <span class="keyword">else</span> {
+            violations.add(<span class="comment">/*...*/</span>);
+            deniedPage = viewConfigResolver.getViewConfigDescriptor(FacesContext.getCurrentInstance().getViewRoot().getViewId()).getConfigClass();
+        }
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">Class</span>&lt;? <span class="directive">extends</span> ViewConfig&gt; getDeniedPage() {
+        <span class="keyword">try</span> {
+            <span class="keyword">return</span> deniedPage;
+        } <span class="keyword">finally</span> {
+            deniedPage = Pages.Home.class;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And in AuthenticationListener you inject AdminAccessDecisionVoter</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">AuthenticationListener</span> {
+
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> ViewNavigationHandler viewNavigationHandler;
+
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> AdminAccessDecisionVoter adminAccessDecisionVoter;
+
+    <span class="directive">public</span> <span class="type">void</span> handleLoggedIn(<span class="annotation">@Observes</span> LoggedInEvent event) {
+        <span class="local-variable">this</span>.viewNavigationHandler.navigateTo(adminAccessDecisionVoter.getDeniedPage());
+    }
+
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_accessdecisionvotercontext">AccessDecisionVoterContext</h3>
+<div class="paragraph">
+<p>Because the <code>AccessDecisionVoter</code> can be chained,
+<code>AccessDecisionVoterContext</code> allows to get the current state as well as
+the results of the security check.</p>
+</div>
+<div class="paragraph">
+<p>There are several methods that can be useful</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>getState()</code> - Exposes the current state : INITIAL, VOTE_IN_PROGRESS, VIOLATION_FOUND, NO_VIOLATION_FOUND</p>
+</li>
+<li>
+<p><code>getViolations()</code> - Exposes the found violations</p>
+</li>
+<li>
+<p><code>getSource()</code> - Exposes, for example, the current instance of <code>javax.interceptor.InvocationContext</code> in combination with <code>@Secured</code> used as interceptor.</p>
+</li>
+<li>
+<p><code>getMetaData()</code> - Exposes the found meta-data, for example the view-config-class if <code>@Secured</code> is used in combination with type-safe view-configs</p>
+</li>
+<li>
+<p><code>getMetaDataFor(String, Class&lt;T&gt;)</code> - Exposes meta-data for the given key</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_securitystrategy_spi">SecurityStrategy SPI</h4>
+<div class="paragraph">
+<p>The <code>SecurityStrategy</code> interface allows to provide a custom
+implementation which should be used for <code>@Secured</code>. Provide a custom
+implementation as bean-class in combination with <code>@Alternative</code> or
+<code>@Specializes</code> (or as global-alternative).</p>
+</div>
+<div class="paragraph">
+<p>In case of global-alternatives an additional configuration needs to be added to
+<code>/META-INF/apache-deltaspike.properties</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>globalAlternatives.org.apache.deltaspike.security.spi.authorization.SecurityStrategy=mypackage.CustomSecurityStrategy</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The configuration for global-alternatives is following the pattern:
+globalAlternatives.<code>&lt;interface-name&gt;</code>=<code>&lt;implementation-class-name&gt;</code>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+        </div>
+
+        <hr>
+
+        <footer>
+          <p>Copyright © 2011-2014 The Apache Software Foundation,
+            Licensed under the Apache License, Version 2.0.</p>
+          <p>Apache and the Apache feather logo are trademarks of The Apache Software Foundation.</p>
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
